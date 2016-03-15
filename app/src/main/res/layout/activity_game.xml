@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.GameActivity"
+    android:background="#0CE872">
+
+    <com.ske.snakebaddesign.guis.BoardView
+        android:id="@+id/board_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/board_view"
+        android:orientation="vertical"
+        android:weightSum="2">
+
+        <TextView
+            android:id="@+id/text_player_turn"
+            android:layout_width="match_parent"
+            android:layout_height="54dp"
+            android:text="Player 1's Turn"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:textColor="#000000"/>
+            <!--android:textColor="#7da240"/>-->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:weightSum="2"
+            android:layout_gravity="bottom"
+            android:orientation="horizontal">
+            <Button
+                android:id="@+id/button_take_turn"
+                android:layout_width="195dp"
+                android:layout_height="80dp"
+                android:text="Take Turn"
+                android:layout_weight="1"
+                android:background="#e6df63" />
+
+            <Button
+                android:id="@+id/button_restart"
+                android:layout_width="195dp"
+                android:layout_height="80dp"
+                android:text="Restart"
+                android:layout_weight="1"
+                android:background="#9cefc1"
+                android:backgroundTint="#abf64a" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>
