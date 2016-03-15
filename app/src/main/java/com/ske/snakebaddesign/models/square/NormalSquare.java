@@ -19,10 +19,6 @@ public class NormalSquare implements Square {
         backgroundColor = Color.rgb(232,213,173);
     }
 
-    @Override
-    public void execute() {
-
-    }
 
     @Override
     public int getForegroundColor() {

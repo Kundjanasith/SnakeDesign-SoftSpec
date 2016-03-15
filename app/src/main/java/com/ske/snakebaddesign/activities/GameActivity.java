@@ -12,10 +12,11 @@ import android.widget.TextView;
 import com.ske.snakebaddesign.R;
 import com.ske.snakebaddesign.guis.BoardView;
 import com.ske.snakebaddesign.models.Game;
+import com.ske.snakebaddesign.models.square.BlackHoleSquare;
+import com.ske.snakebaddesign.models.square.FastTrackSquare;
 
 public class GameActivity extends AppCompatActivity {
 
-    private Game game;
     private BoardView boardView;
     private Button buttonTakeTurn;
     private Button buttonRestart;
@@ -51,20 +52,21 @@ public class GameActivity extends AppCompatActivity {
             }
         });
         textPlayerTurn = (TextView) findViewById(R.id.text_player_turn);
-        textPlayerTurn.setBackgroundColor(boardView.getColorP1());
+        textPlayerTurn.setBackgroundColor(Game.getInstance().getPlayer1().getColor());
     }
 
     private void resetGame() {
-        game = Game.getInstance();
-        game.getBoard().setSize(9);
-        boardView.setBoard(game.getBoard());
+        Game.getInstance().getBoard().refreshBoard();
+        Game.getInstance().setTurn(0);
+        boardView.setP1Position(0);
+        boardView.setP2Position(0);
     }
 
     private void takeTurn() {
-        final int value = game.getDice().getValue();
-        String title = "You rolled a die";
-        if(game.getTurn()%2==0) title = game.getPlayer1().getRollToString();
-        else title = game.getPlayer2().getRollToString();
+        final int value = Game.getInstance().getDice().getValue();
+        String title = "";
+        if(Game.getInstance().getTurn()%2==0) title = Game.getInstance().getPlayer1().getRollToString();
+        else title = Game.getInstance().getPlayer2().getRollToString();
         String msg = "You got " + value;
         OnClickListener listener = new OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
@@ -76,24 +78,56 @@ public class GameActivity extends AppCompatActivity {
     }
 
     private void moveCurrentPiece(int value) {
-        if (game.getTurn() % 2 == 0) {
-            game.getPlayer1().setPosition(adjustPosition(game.getPlayer1().getPosition(), value));
-            boardView.setP1Position(game.getPlayer1().getPosition());
-            textPlayerTurn.setText(game.getPlayer2().getTurnToString());
-            textPlayerTurn.setBackgroundColor(boardView.getColorP2());
+        if (Game.getInstance().getTurn() % 2 == 0) {
+            Game.getInstance().getPlayer1().setPosition(adjustPosition(Game.getInstance().getPlayer1().getPosition(), value));
+            boardView.setP1Position(Game.getInstance().getPlayer1().getPosition());
+            if(Game.getInstance().getBoard().getSquareList().get(findPosition("1")) instanceof BlackHoleSquare){
+                Game.getInstance().getPlayer1().setPosition(0);
+                boardView.setP1Position(Game.getInstance().getPlayer1().getPosition());
+            }
+            if(Game.getInstance().getBoard().getSquareList().get(findPosition("1")) instanceof FastTrackSquare){
+                Game.getInstance().getPlayer1().setPosition((Game.getInstance().getBoard().getSize()*Game.getInstance().getBoard().getSize())-1);
+                boardView.setP1Position(Game.getInstance().getPlayer1().getPosition());
+            }
+            textPlayerTurn.setText(Game.getInstance().getPlayer2().getTurnToString());
+            textPlayerTurn.setBackgroundColor(Game.getInstance().getPlayer2().getColor());
         } else {
-            game.getPlayer2().setPosition(adjustPosition(game.getPlayer2().getPosition(),value));
-            boardView.setP2Position(game.getPlayer2().getPosition());
-            textPlayerTurn.setText(game.getPlayer1().getTurnToString());
-            textPlayerTurn.setBackgroundColor(boardView.getColorP1());
+            Game.getInstance().getPlayer2().setPosition(adjustPosition(Game.getInstance().getPlayer2().getPosition(), value));
+            boardView.setP2Position(Game.getInstance().getPlayer2().getPosition());
+            if(Game.getInstance().getBoard().getSquareList().get(findPosition("2")) instanceof BlackHoleSquare){
+                Game.getInstance().getPlayer2().setPosition(0);
+                boardView.setP2Position(Game.getInstance().getPlayer2().getPosition());
+            }
+            if(Game.getInstance().getBoard().getSquareList().get(findPosition("2")) instanceof FastTrackSquare){
+                Game.getInstance().getPlayer2().setPosition((Game.getInstance().getBoard().getSize()*Game.getInstance().getBoard().getSize())-1);
+                boardView.setP2Position(Game.getInstance().getPlayer2().getPosition());
+            }
+            textPlayerTurn.setText(Game.getInstance().getPlayer1().getTurnToString());
+            textPlayerTurn.setBackgroundColor(Game.getInstance().getPlayer1().getColor());
         }
         checkWin();
-        game.setTurn(game.getTurn()+1);;
+        Game.getInstance().setTurn(Game.getInstance().getTurn() + 1);;
     }
 
+    private int findPosition(String player){
+        int temp = 0;
+        int mod = 0;
+        if(player.equals("1")){
+            temp = Game.getInstance().getPlayer1().getPosition()/Game.getInstance().getBoard().getSize();
+            mod = Game.getInstance().getPlayer1().getPosition()%Game.getInstance().getBoard().getSize();
+        }
+        if(player.equals("2")){
+            temp = Game.getInstance().getPlayer2().getPosition()/Game.getInstance().getBoard().getSize();
+            mod = Game.getInstance().getPlayer2().getPosition()%Game.getInstance().getBoard().getSize();
+        }
+        for(int i=0 ; i<mod ; i++){
+            temp += Game.getInstance().getBoard().getSize();
+        }
+        return temp;
+    }
     private int adjustPosition(int current, int distance) {
         current = current + distance;
-        int maxSquare = game.getBoard().getSize() * game.getBoard().getSize() - 1;
+        int maxSquare = Game.getInstance().getBoard().getSize() * Game.getInstance().getBoard().getSize() - 1;
         if(current > maxSquare) {
             current = maxSquare - (current - maxSquare);
         }
@@ -109,10 +143,10 @@ public class GameActivity extends AppCompatActivity {
                 dialog.dismiss();
             }
         };
-        if (game.getPlayer1().getPosition() == game.getBoard().getSize() * game.getBoard().getSize() - 1) {
-            msg = game.getPlayer1().getWinToString();
-        } else if (game.getPlayer2().getPosition() == game.getBoard().getSize() * game.getBoard().getSize() - 1) {
-            msg = game.getPlayer2().getWinToString();
+        if (Game.getInstance().getPlayer1().getPosition() == Game.getInstance().getBoard().getSize() * Game.getInstance().getBoard().getSize() - 1) {
+            msg = Game.getInstance().getPlayer1().getWinToString();
+        } else if (Game.getInstance().getPlayer2().getPosition() == Game.getInstance().getBoard().getSize() * Game.getInstance().getBoard().getSize() - 1) {
+            msg = Game.getInstance().getPlayer2().getWinToString();
         } else {
             return;
         }

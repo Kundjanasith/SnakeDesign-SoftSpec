@@ -7,18 +7,18 @@ import com.ske.snakebaddesign.models.Square;
 /**
  * Created by exceed on 3/15/16 AD.
  */
-public class StartSquare implements Square {
+public class FastTrackSquare implements Square{
+
 
     private String status;
     private int foregroundColor;
     private int backgroundColor;
 
-    public StartSquare(){
-        status = "Start";
-        foregroundColor = Color.rgb(255,255,255);
-        backgroundColor = Color.rgb(180,170,160);
+    public FastTrackSquare(){
+        status = "Fast";
+        foregroundColor = Color.rgb(255, 255, 255);
+        backgroundColor = Color.rgb(255,126,166);
     }
-
 
     @Override
     public int getForegroundColor() {
@@ -34,6 +34,4 @@ public class StartSquare implements Square {
     public String getStatus() {
         return this.status;
     }
-
-
 }

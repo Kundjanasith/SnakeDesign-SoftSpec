@@ -19,10 +19,6 @@ public class FinishSquare implements Square {
         backgroundColor = Color.rgb(180,170,160);
     }
 
-    @Override
-    public void execute() {
-
-    }
 
     @Override
     public int getForegroundColor() {
