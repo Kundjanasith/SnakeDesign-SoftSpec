@@ -47,4 +47,16 @@ public class Player {
     public void setColor(int color) {
         this.color = color;
     }
+
+    public void move(int value){
+        this.setPosition(adjustPosition(getPosition(),value));
+    }
+    private int adjustPosition(int current, int distance) {
+        current = current + distance;
+        int maxSquare = Game.getInstance().getBoard().getSize() * Game.getInstance().getBoard().getSize() - 1;
+        if(current > maxSquare) {
+            current = maxSquare - (current - maxSquare);
+        }
+        return current;
+    }
 }

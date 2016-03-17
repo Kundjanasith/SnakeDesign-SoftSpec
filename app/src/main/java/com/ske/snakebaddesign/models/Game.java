@@ -1,5 +1,7 @@
 package com.ske.snakebaddesign.models;
 
+import com.ske.snakebaddesign.models.square.Square;
+
 /**
  * Created by exceed on 3/10/16 AD.
  */
@@ -63,5 +65,35 @@ public class Game {
     public void setDice(Dice dice) {
         this.dice = dice;
     }
+
+    public boolean checkWin(){
+        return this.getCurrentPlayer().getPosition() ==
+                this.getInstance().getBoard().getSize() * Game.getInstance().getBoard().getSize() - 1 ;
+    }
+
+    public void resetGame(){
+        this.getBoard().refreshBoard();
+        this.setTurn(0);
+        this.getPlayer1().setPosition(0);
+        this.getPlayer2().setPosition(0);
+    }
+
+    public String  checkSquare(){
+        Square s =  Game.getInstance().getBoard().getSquareList().get(findPosition());
+        s.execute();
+        if(s.getStatus().equals("Hole")) return "This is a black hole \n Please go to started point";
+        if(s.getStatus().equals("Fast")) return "This is a fast track \n You will be the winner";
+        return  null;
+    }
+
+    private int findPosition(){
+        int temp = Game.getInstance().getCurrentPlayer().getPosition()/Game.getInstance().getBoard().getSize();
+        int mod = Game.getInstance().getCurrentPlayer().getPosition()%Game.getInstance().getBoard().getSize();
+        for(int i=0 ; i<mod ; i++){
+            temp += Game.getInstance().getBoard().getSize();
+        }
+        return temp;
+    }
+
 
 }

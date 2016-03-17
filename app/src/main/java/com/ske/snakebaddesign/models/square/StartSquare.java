@@ -19,6 +19,11 @@ public class StartSquare implements Square {
 
 
     @Override
+    public void execute() {
+
+    }
+
+    @Override
     public int getForegroundColor() {
         return this.foregroundColor;
     }

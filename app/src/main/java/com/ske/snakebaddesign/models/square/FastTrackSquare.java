@@ -2,6 +2,8 @@ package com.ske.snakebaddesign.models.square;
 
 import android.graphics.Color;
 
+import com.ske.snakebaddesign.models.Game;
+
 /**
  * Created by exceed on 3/15/16 AD.
  */
@@ -16,6 +18,11 @@ public class FastTrackSquare implements Square{
         status = "Fast";
         foregroundColor = Color.rgb(255, 255, 255);
         backgroundColor = Color.rgb(255,126,166);
+    }
+
+    @Override
+    public void execute() {
+        Game.getInstance().getCurrentPlayer().setPosition((Game.getInstance().getBoard().getSize() * Game.getInstance().getBoard().getSize()) - 1);
     }
 
     @Override

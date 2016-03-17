@@ -54,7 +54,8 @@ public class BoardView extends View {
 
     public void setPlayerPosition(int position){
         Log.i("Turn", Game.getInstance().getTurn() + "");
-        if(Game.getInstance().getTurn()%2==0)Game.getInstance().getPlayer1().setPosition(position);
+        if(Game.getInstance().getTurn()%2==0 )
+            Game.getInstance().getPlayer1().setPosition(position);
         else Game.getInstance().getPlayer2().setPosition(position);
         postInvalidate();
     }

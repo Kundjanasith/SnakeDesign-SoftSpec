@@ -2,6 +2,8 @@ package com.ske.snakebaddesign.models.square;
 
 import android.graphics.Color;
 
+import com.ske.snakebaddesign.models.Game;
+
 ///**
 // * Created by exceed on 3/15/16 AD.
 // */
@@ -15,6 +17,11 @@ public class BlackHoleSquare implements Square{
         status = "Hole";
         foregroundColor = Color.rgb(255, 255, 255);
         backgroundColor = Color.rgb(136,115,145);
+    }
+
+    @Override
+    public void execute() {
+        Game.getInstance().getCurrentPlayer().setPosition(0);
     }
 
     @Override
