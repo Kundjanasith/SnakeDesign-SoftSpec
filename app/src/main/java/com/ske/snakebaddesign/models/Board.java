@@ -54,11 +54,6 @@ public class Board {
         return size;
     }
 
-    public void setSize(int size) {
-        generateBoard(size);
-        this.size = size;
-    }
-
     public void refreshBoard(){
         this.squareList.clear();
         this.generateBoard(this.size);

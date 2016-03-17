@@ -13,7 +13,7 @@ import com.ske.snakebaddesign.R;
 import com.ske.snakebaddesign.guis.BoardView;
 import com.ske.snakebaddesign.models.Game;
 
-public class GameActivity extends AppCompatActivity {
+public class GameActivity extends AppCompatActivity{
 
     private BoardView boardView;
     private Button buttonTakeTurn;
@@ -75,13 +75,7 @@ public class GameActivity extends AppCompatActivity {
         textPlayerTurn.setBackgroundColor(Game.getInstance().getCurrentPlayer().getColor());
         if(Game.getInstance().checkWin())showWin();
         Game.getInstance().setTurn(Game.getInstance().getTurn() + 1);
-        OnClickListener listener = new OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
-
-                dialog.dismiss();
-            }
-        };
-        if(msg!=null)displayDialog(title, msg, listener);
+        if(msg!=null)displayDialog(title, msg, null);
     }
 
     private void showWin() {

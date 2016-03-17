@@ -86,6 +86,7 @@ public class Game {
         return  null;
     }
 
+
     private int findPosition(){
         int temp = Game.getInstance().getCurrentPlayer().getPosition()/Game.getInstance().getBoard().getSize();
         int mod = Game.getInstance().getCurrentPlayer().getPosition()%Game.getInstance().getBoard().getSize();

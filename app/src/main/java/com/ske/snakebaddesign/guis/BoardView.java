@@ -98,7 +98,7 @@ public class BoardView extends View {
     }
 
     private void drawPlayerPieces(Canvas canvas) {
-//         Draw player 1 (0.33 is the 1/3 position of the cell height)
+        // Draw player 1 (0.33 is the 1/3 position of the cell height)
         paint.setColor(Game.getInstance().getPlayer1().getColor());
         float p1X = positionToCol(Game.getInstance().getPlayer1().getPosition()) * cellSize + cellSize/2;
         float p1Y = positionToRow(Game.getInstance().getPlayer1().getPosition()) * cellSize + (cellSize * 0.33f);
