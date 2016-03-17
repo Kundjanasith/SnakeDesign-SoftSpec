@@ -4,6 +4,7 @@ import com.ske.snakebaddesign.models.square.BlackHoleSquare;
 import com.ske.snakebaddesign.models.square.FastTrackSquare;
 import com.ske.snakebaddesign.models.square.FinishSquare;
 import com.ske.snakebaddesign.models.square.NormalSquare;
+import com.ske.snakebaddesign.models.square.Square;
 import com.ske.snakebaddesign.models.square.StartSquare;
 
 import java.util.ArrayList;

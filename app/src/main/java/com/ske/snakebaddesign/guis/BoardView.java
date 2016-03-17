@@ -5,10 +5,11 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 
 import com.ske.snakebaddesign.models.Game;
-import com.ske.snakebaddesign.models.Square;
+import com.ske.snakebaddesign.models.square.Square;
 
 import java.util.List;
 
@@ -51,14 +52,10 @@ public class BoardView extends View {
         drawPlayerPieces(canvas);
     }
 
-
-    public void setP1Position(int p1Position) {
-        Game.getInstance().getPlayer1().setPosition(p1Position);
-        postInvalidate();
-    }
-
-    public void setP2Position(int p2Position) {
-        Game.getInstance().getPlayer2().setPosition(p2Position);
+    public void setPlayerPosition(int position){
+        Log.i("Turn", Game.getInstance().getTurn() + "");
+        if(Game.getInstance().getTurn()%2==0)Game.getInstance().getPlayer1().setPosition(position);
+        else Game.getInstance().getPlayer2().setPosition(position);
         postInvalidate();
     }
 
@@ -100,7 +97,7 @@ public class BoardView extends View {
     }
 
     private void drawPlayerPieces(Canvas canvas) {
-        // Draw player 1 (0.33 is the 1/3 position of the cell height)
+//         Draw player 1 (0.33 is the 1/3 position of the cell height)
         paint.setColor(Game.getInstance().getPlayer1().getColor());
         float p1X = positionToCol(Game.getInstance().getPlayer1().getPosition()) * cellSize + cellSize/2;
         float p1Y = positionToRow(Game.getInstance().getPlayer1().getPosition()) * cellSize + (cellSize * 0.33f);

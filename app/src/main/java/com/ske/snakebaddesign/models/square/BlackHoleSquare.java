@@ -2,8 +2,6 @@ package com.ske.snakebaddesign.models.square;
 
 import android.graphics.Color;
 
-import com.ske.snakebaddesign.models.Square;
-
 ///**
 // * Created by exceed on 3/15/16 AD.
 // */

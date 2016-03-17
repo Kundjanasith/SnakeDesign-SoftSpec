@@ -52,21 +52,19 @@ public class GameActivity extends AppCompatActivity {
             }
         });
         textPlayerTurn = (TextView) findViewById(R.id.text_player_turn);
-        textPlayerTurn.setBackgroundColor(Game.getInstance().getPlayer1().getColor());
+        textPlayerTurn.setBackgroundColor(Game.getInstance().getCurrentPlayer().getColor());
     }
 
     private void resetGame() {
         Game.getInstance().getBoard().refreshBoard();
         Game.getInstance().setTurn(0);
-        boardView.setP1Position(0);
-        boardView.setP2Position(0);
+        boardView.setPlayerPosition(0);
+        boardView.setPlayerPosition(0);
     }
 
     private void takeTurn() {
         final int value = Game.getInstance().getDice().getValue();
-        String title = "";
-        if(Game.getInstance().getTurn()%2==0) title = Game.getInstance().getPlayer1().getRollToString();
-        else title = Game.getInstance().getPlayer2().getRollToString();
+        String title = Game.getInstance().getCurrentPlayer().getRollToString();
         String msg = "You got " + value;
         OnClickListener listener = new OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
@@ -78,33 +76,18 @@ public class GameActivity extends AppCompatActivity {
     }
 
     private void moveCurrentPiece(int value) {
-        if (Game.getInstance().getTurn() % 2 == 0) {
-            Game.getInstance().getPlayer1().setPosition(adjustPosition(Game.getInstance().getPlayer1().getPosition(), value));
-            boardView.setP1Position(Game.getInstance().getPlayer1().getPosition());
-            if(Game.getInstance().getBoard().getSquareList().get(findPosition("1")) instanceof BlackHoleSquare){
-                Game.getInstance().getPlayer1().setPosition(0);
-                boardView.setP1Position(Game.getInstance().getPlayer1().getPosition());
+        Game.getInstance().getCurrentPlayer().setPosition(adjustPosition(Game.getInstance().getCurrentPlayer().getPosition(), value));
+            boardView.setPlayerPosition(Game.getInstance().getCurrentPlayer().getPosition());
+            if(Game.getInstance().getBoard().getSquareList().get(findPosition(Game.getInstance().getCurrentPlayer().getName())) instanceof BlackHoleSquare){
+                Game.getInstance().getCurrentPlayer().setPosition(0);
+                boardView.setPlayerPosition(Game.getInstance().getCurrentPlayer().getPosition());
             }
-            if(Game.getInstance().getBoard().getSquareList().get(findPosition("1")) instanceof FastTrackSquare){
-                Game.getInstance().getPlayer1().setPosition((Game.getInstance().getBoard().getSize()*Game.getInstance().getBoard().getSize())-1);
-                boardView.setP1Position(Game.getInstance().getPlayer1().getPosition());
+            if(Game.getInstance().getBoard().getSquareList().get(findPosition(Game.getInstance().getCurrentPlayer().getName())) instanceof FastTrackSquare){
+                Game.getInstance().getCurrentPlayer().setPosition((Game.getInstance().getBoard().getSize() * Game.getInstance().getBoard().getSize()) - 1);
+                boardView.setPlayerPosition(Game.getInstance().getCurrentPlayer().getPosition());
             }
-            textPlayerTurn.setText(Game.getInstance().getPlayer2().getTurnToString());
-            textPlayerTurn.setBackgroundColor(Game.getInstance().getPlayer2().getColor());
-        } else {
-            Game.getInstance().getPlayer2().setPosition(adjustPosition(Game.getInstance().getPlayer2().getPosition(), value));
-            boardView.setP2Position(Game.getInstance().getPlayer2().getPosition());
-            if(Game.getInstance().getBoard().getSquareList().get(findPosition("2")) instanceof BlackHoleSquare){
-                Game.getInstance().getPlayer2().setPosition(0);
-                boardView.setP2Position(Game.getInstance().getPlayer2().getPosition());
-            }
-            if(Game.getInstance().getBoard().getSquareList().get(findPosition("2")) instanceof FastTrackSquare){
-                Game.getInstance().getPlayer2().setPosition((Game.getInstance().getBoard().getSize()*Game.getInstance().getBoard().getSize())-1);
-                boardView.setP2Position(Game.getInstance().getPlayer2().getPosition());
-            }
-            textPlayerTurn.setText(Game.getInstance().getPlayer1().getTurnToString());
-            textPlayerTurn.setBackgroundColor(Game.getInstance().getPlayer1().getColor());
-        }
+            textPlayerTurn.setText(Game.getInstance().getCurrentPlayer().getTurnToString());
+            textPlayerTurn.setBackgroundColor(Game.getInstance().getCurrentPlayer().getColor());
         checkWin();
         Game.getInstance().setTurn(Game.getInstance().getTurn() + 1);;
     }
@@ -113,12 +96,12 @@ public class GameActivity extends AppCompatActivity {
         int temp = 0;
         int mod = 0;
         if(player.equals("1")){
-            temp = Game.getInstance().getPlayer1().getPosition()/Game.getInstance().getBoard().getSize();
-            mod = Game.getInstance().getPlayer1().getPosition()%Game.getInstance().getBoard().getSize();
+            temp = Game.getInstance().getCurrentPlayer().getPosition()/Game.getInstance().getBoard().getSize();
+            mod = Game.getInstance().getCurrentPlayer().getPosition()%Game.getInstance().getBoard().getSize();
         }
         if(player.equals("2")){
-            temp = Game.getInstance().getPlayer2().getPosition()/Game.getInstance().getBoard().getSize();
-            mod = Game.getInstance().getPlayer2().getPosition()%Game.getInstance().getBoard().getSize();
+            temp = Game.getInstance().getCurrentPlayer().getPosition()/Game.getInstance().getBoard().getSize();
+            mod = Game.getInstance().getCurrentPlayer().getPosition()%Game.getInstance().getBoard().getSize();
         }
         for(int i=0 ; i<mod ; i++){
             temp += Game.getInstance().getBoard().getSize();
@@ -143,10 +126,10 @@ public class GameActivity extends AppCompatActivity {
                 dialog.dismiss();
             }
         };
-        if (Game.getInstance().getPlayer1().getPosition() == Game.getInstance().getBoard().getSize() * Game.getInstance().getBoard().getSize() - 1) {
-            msg = Game.getInstance().getPlayer1().getWinToString();
-        } else if (Game.getInstance().getPlayer2().getPosition() == Game.getInstance().getBoard().getSize() * Game.getInstance().getBoard().getSize() - 1) {
-            msg = Game.getInstance().getPlayer2().getWinToString();
+        if (Game.getInstance().getCurrentPlayer().getPosition() == Game.getInstance().getBoard().getSize() * Game.getInstance().getBoard().getSize() - 1) {
+            msg = Game.getInstance().getCurrentPlayer().getWinToString();
+        } else if (Game.getInstance().getCurrentPlayer().getPosition() == Game.getInstance().getBoard().getSize() * Game.getInstance().getBoard().getSize() - 1) {
+            msg = Game.getInstance().getCurrentPlayer().getWinToString();
         } else {
             return;
         }
