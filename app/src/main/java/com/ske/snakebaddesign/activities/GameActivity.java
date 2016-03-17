@@ -90,6 +90,7 @@ public class GameActivity extends AppCompatActivity {
         OnClickListener listener = new OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 Game.getInstance().resetGame();
+                boardView.setPlayerPosition(Game.getInstance().getCurrentPlayer().getPosition());
                 dialog.dismiss();
             }
         };
